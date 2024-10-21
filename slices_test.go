@@ -72,8 +72,8 @@ func TestMapGetFieldFromStruct(t *testing.T) {
 	}
 
 	persons := []*Person{
-		&Person{Name: "Priscille"},
-		&Person{Name: "Geoffrey"},
+		{Name: "Priscille"},
+		{Name: "Geoffrey"},
 	}
 
 	f := func(p *Person) (string, error) { return p.Name, nil }
