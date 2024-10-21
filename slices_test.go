@@ -1,15 +1,17 @@
-package slices
+package slices_test
 
 import (
 	"reflect"
 	"strconv"
 	"testing"
+
+	"github.com/pypaut/slices"
 )
 
 func TestMapAddOne(t *testing.T) {
 	numbers := []int{2, 3, 4, 5, 6}
 	f := func(i int) (int, error) { return i + 1, nil }
-	mapped, _ := Map(numbers, f)
+	mapped, _ := slices.Map(numbers, f)
 
 	expected := []int{3, 4, 5, 6, 7}
 	if !reflect.DeepEqual(mapped, expected) {
@@ -20,7 +22,7 @@ func TestMapAddOne(t *testing.T) {
 func TestMapMultiplyByThree(t *testing.T) {
 	numbers := []int{2, 3, 4, 5, 6}
 	f := func(i int) (int, error) { return i * 3, nil }
-	mapped, _ := Map(numbers, f)
+	mapped, _ := slices.Map(numbers, f)
 
 	expected := []int{6, 9, 12, 15, 18}
 	if !reflect.DeepEqual(mapped, expected) {
@@ -31,7 +33,7 @@ func TestMapMultiplyByThree(t *testing.T) {
 func TestMapConvertToString(t *testing.T) {
 	numbers := []int{2, 3, 4, 5, 6, 198}
 	f := func(i int) (string, error) { return strconv.Itoa(i), nil }
-	mapped, _ := Map(numbers, f)
+	mapped, _ := slices.Map(numbers, f)
 
 	expected := []string{"2", "3", "4", "5", "6", "198"}
 	if !reflect.DeepEqual(mapped, expected) {
@@ -42,7 +44,7 @@ func TestMapConvertToString(t *testing.T) {
 func TestMapConvertToInt(t *testing.T) {
 	strNumbers := []string{"2", "3", "4", "5", "6", "198"}
 	f := func(s string) (int, error) { return strconv.Atoi(s) }
-	mapped, _ := Map(strNumbers, f)
+	mapped, _ := slices.Map(strNumbers, f)
 
 	expected := []int{2, 3, 4, 5, 6, 198}
 	if !reflect.DeepEqual(mapped, expected) {
@@ -53,7 +55,7 @@ func TestMapConvertToInt(t *testing.T) {
 func TestMapConvertToIntWithError(t *testing.T) {
 	strNumbers := []string{"2", "3", "4", "5", "6", "198eijo"}
 	f := func(s string) (int, error) { return strconv.Atoi(s) }
-	mapped, err := Map(strNumbers, f)
+	mapped, err := slices.Map(strNumbers, f)
 
 	if mapped != nil {
 		t.Error("should be nil")
@@ -75,7 +77,7 @@ func TestMapGetFieldFromStruct(t *testing.T) {
 	}
 
 	f := func(p *Person) (string, error) { return p.Name, nil }
-	mapped, err := Map(persons, f)
+	mapped, err := slices.Map(persons, f)
 
 	if err != nil {
 		t.Errorf("expected err to be nil, got %v", err)
@@ -90,7 +92,7 @@ func TestMapGetFieldFromStruct(t *testing.T) {
 func TestFilterIntegers(t *testing.T) {
 	numbers := []int{2, 3, 4, 5, 6}
 	f := func(i int) bool { return i > 2 }
-	filtered := Filter(numbers, f)
+	filtered := slices.Filter(numbers, f)
 
 	expected := []int{3, 4, 5, 6}
 	if !reflect.DeepEqual(filtered, expected) {
@@ -101,7 +103,7 @@ func TestFilterIntegers(t *testing.T) {
 func TestFilterStrLen(t *testing.T) {
 	names := []string{"Priscille", "Geoffrey", "Nala", "Kira"}
 	f := func(s string) bool { return len(s) < 5 }
-	filtered := Filter(names, f)
+	filtered := slices.Filter(names, f)
 
 	expected := []string{"Nala", "Kira"}
 	if !reflect.DeepEqual(filtered, expected) {
