@@ -30,3 +30,23 @@ func ExampleMap() {
 	// Names: [Alice Bob Vera]
 	// Ages: [31 23 48]
 }
+
+func ExampleFilter() {
+	type Person struct {
+		Name string
+		Age  int
+	}
+
+	persons := []Person{
+		{Name: "Alice", Age: 31},
+		{Name: "Bob", Age: 23},
+		{Name: "Vera", Age: 48},
+	}
+
+	aboveThirty := slices.Filter(
+		persons, func(p Person) bool { return p.Age > 30 },
+	)
+	fmt.Printf("%+v\n", aboveThirty)
+	// Output:
+	// [{Name:Alice Age:31} {Name:Vera Age:48}]
+}
