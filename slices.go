@@ -14,3 +14,13 @@ func Map[U, V any](s []U, f func(U) (V, error)) (mapped []V, err error) {
 
 	return
 }
+
+func Filter[U any](s []U, f func(U) bool) (mapped []U) {
+	for _, e := range s {
+		if f(e) {
+			mapped = append(mapped, e)
+		}
+	}
+
+	return
+}
