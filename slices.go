@@ -2,6 +2,10 @@ package slices
 
 import "fmt"
 
+// Map applies f to every elements from s, and returns a new slice with the results.
+// The initial slice s will not be updated.
+// If any errors happens during the call of f(s[i]), Map will stop and return
+// the error.
 func Map[U, V any](s []U, f func(U) (V, error)) (mapped []V, err error) {
 	for _, e := range s {
 		newValue, err := f(e)
@@ -15,6 +19,9 @@ func Map[U, V any](s []U, f func(U) (V, error)) (mapped []V, err error) {
 	return
 }
 
+// Filter returns a new slice with the elements from s that satisfy the
+// condition f(s[i]).
+// The initial slice s will not be updated.
 func Filter[U any](s []U, f func(U) bool) (mapped []U) {
 	for _, e := range s {
 		if f(e) {
