@@ -110,3 +110,171 @@ func TestFilterStrLen(t *testing.T) {
 		t.Errorf("Expected %v, got %v", expected, filtered)
 	}
 }
+
+func TestCheckDuplicatesStringPositive(t *testing.T) {
+	names := []string{"Priscille", "Geoffrey", "Nala", "Kira", "Kira"}
+
+	if !slices.CheckDuplicates(names) {
+		t.Errorf("Did not find duplicates in %v", names)
+	}
+}
+
+func TestCheckDuplicatesStringNegative(t *testing.T) {
+	names := []string{"Priscille", "Geoffrey", "Nala", "Kira"}
+
+	if slices.CheckDuplicates(names) {
+		t.Errorf("Found duplicates in %v", names)
+	}
+}
+
+func TestCheckDuplicatesIntPositive(t *testing.T) {
+	numbers := []int{1, 2, 3, 4, 5, 6, 7, 7}
+
+	if !slices.CheckDuplicates(numbers) {
+		t.Errorf("Did not find duplicates in %v", numbers)
+	}
+}
+
+func TestCheckDuplicatesIntNegative(t *testing.T) {
+	numbers := []int{1, 2, 3, 4, 5, 6, 7}
+
+	if slices.CheckDuplicates(numbers) {
+		t.Errorf("Found duplicates in %v", numbers)
+	}
+}
+
+func TestCheckDuplicatesSlicesNegative(t *testing.T) {
+	sliceOfSlices := [][]int{
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8},
+	}
+
+	if slices.CheckDuplicates(sliceOfSlices) {
+		t.Errorf("Found duplicates in %v", sliceOfSlices)
+	}
+}
+
+func TestCheckDuplicatesSlicesPositive(t *testing.T) {
+	sliceOfSlices := [][]int{
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8},
+		{1, 2, 3},
+	}
+
+	if !slices.CheckDuplicates(sliceOfSlices) {
+		t.Errorf("Did not find duplicates in %v", sliceOfSlices)
+	}
+}
+
+func TestCheckDuplicatesEmptySlicesPositive(t *testing.T) {
+	sliceOfSlices := [][]int{
+		nil,
+		nil,
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8},
+		{1, 2, 3},
+	}
+
+	if !slices.CheckDuplicates(sliceOfSlices) {
+		t.Errorf("Did not find duplicates in %v", sliceOfSlices)
+	}
+}
+
+func TestCheckDuplicatesEmptySliceNegative(t *testing.T) {
+	numbers := []int{}
+
+	if slices.CheckDuplicates(numbers) {
+		t.Errorf("Found duplicates in %v", numbers)
+	}
+}
+
+func TestCheckDuplicatesCustomStructNegative(t *testing.T) {
+	type Cat struct {
+		Name  string
+		Age   int
+		Color string
+	}
+
+  cats := []Cat{
+    {Name: "Nala", Age: 6, Color: "BROWN"},
+    {Name: "Kira", Age: 2, Color: "ORANGE"},
+  }
+
+	if slices.CheckDuplicates(cats) {
+		t.Errorf("Found duplicates in %v", cats)
+	}
+}
+
+func TestCheckDuplicatesCustomStructPointersNegative(t *testing.T) {
+	type Cat struct {
+		Name  string
+		Age   int
+		Color string
+	}
+
+  cats := []*Cat{
+    {Name: "Nala", Age: 6, Color: "BROWN"},
+    {Name: "Kira", Age: 2, Color: "ORANGE"},
+  }
+
+	if slices.CheckDuplicates(cats) {
+		t.Errorf("Found duplicates in %v", cats)
+	}
+}
+
+func TestCheckDuplicatesCustomStructPositive(t *testing.T) {
+	type Cat struct {
+		Name  string
+		Age   int
+		Color string
+	}
+
+  cats := []Cat{
+    {Name: "Nala", Age: 6, Color: "BROWN"},
+    {Name: "Kira", Age: 2, Color: "ORANGE"},
+    {Name: "Kira", Age: 2, Color: "ORANGE"},
+  }
+
+	if !slices.CheckDuplicates(cats) {
+		t.Errorf("Did not find duplicates in %v", cats)
+	}
+}
+
+func TestCheckDuplicatesCustomStructPointersPositive(t *testing.T) {
+	type Cat struct {
+		Name  string
+		Age   int
+		Color string
+	}
+
+  cats := []*Cat{
+    {Name: "Nala", Age: 6, Color: "BROWN"},
+    {Name: "Kira", Age: 2, Color: "ORANGE"},
+    {Name: "Kira", Age: 2, Color: "ORANGE"},
+  }
+
+	if !slices.CheckDuplicates(cats) {
+		t.Errorf("Did not find duplicates in %v", cats)
+	}
+}
+
+func TestCheckDuplicatesCustomStructNegative2(t *testing.T) {
+	type Cat struct {
+		Name  string
+		Age   int
+		Color string
+	}
+
+  cats := []Cat{
+    {Name: "Nala", Age: 6, Color: "BROWN"},
+    {Name: "Kira", Age: 2, Color: "ORANGE"},
+    {Name: "Kira", Age: 2, Color: "ORANG"},
+  }
+
+  if slices.CheckDuplicates(cats) {
+    t.Errorf("Found duplicates in %v", cats)
+  }
+}

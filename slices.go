@@ -1,6 +1,9 @@
 package slices
 
-import "fmt"
+import (
+	"fmt"
+	"reflect"
+)
 
 // Map applies f to every element from s, and returns a new slice with the results.
 // The initial slice s will not be updated.
@@ -30,4 +33,17 @@ func Filter[U any](s []U, f func(U) bool) (mapped []U) {
 	}
 
 	return
+}
+
+// CheckDuplicates returns true if any duplicates where found in s
+func CheckDuplicates[U any](s []U) (bool) {
+  for i1, e1 := range s {
+    for i2, e2 := range s {
+      if reflect.DeepEqual(e1, e2) && i1 != i2 {
+        return true
+      }
+    }
+  }
+
+  return false
 }
